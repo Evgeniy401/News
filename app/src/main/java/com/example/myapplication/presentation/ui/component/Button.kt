@@ -1,5 +1,7 @@
 package com.example.myapplication.presentation.ui.component
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -16,13 +18,17 @@ fun StyledButton(
     content: @Composable () -> Unit
 ) {
     Button(
-        onClick = onClick,
         modifier = modifier,
+        onClick = onClick,
         shape = RoundedCornerShape(size = 15.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Black
         )
     ) {
-        content
+        Box(
+            modifier = Modifier.padding(horizontal = 60.dp, vertical = 5.dp)
+        ) {
+            content()
+        }
     }
 }
