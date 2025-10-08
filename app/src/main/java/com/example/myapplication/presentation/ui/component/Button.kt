@@ -26,7 +26,7 @@ fun StyledButton(
         )
     ) {
         Box(
-            modifier = Modifier.padding(horizontal = 60.dp, vertical = 5.dp)
+            modifier = Modifier.padding(horizontal = 35.dp, vertical = 5.dp)
         ) {
             content()
         }
