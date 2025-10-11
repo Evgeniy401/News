@@ -1,7 +1,7 @@
 package com.example.myapplication.presentation.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -13,27 +13,44 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import com.example.myapplication.R
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.myapplication.presentation.navigation.Screen
 import com.example.myapplication.presentation.screen.state.RegisterScreenEvent
 import com.example.myapplication.presentation.screen.state.RegisterScreenState
 import com.example.myapplication.presentation.screen.viewModel.RegisterScreenViewModel
 import com.example.myapplication.presentation.ui.component.StyledButton
+import com.example.myapplication.utill.Result
 
 @Composable
 fun RegisterScreen(
     onNavigateTo: (Screen) -> Unit = {}
 ) {
-    val viewModel = viewModel<RegisterScreenViewModel>()
+    val viewModel = hiltViewModel<RegisterScreenViewModel>()
+
+    val context = LocalContext.current
+    LaunchedEffect(viewModel.state.registerResult) {
+        viewModel.state.registerResult?.let { registerResult ->
+            when (registerResult) {
+                is Result.Success<*> -> {
+                    onNavigateTo(Screen.Main)
+                }
+                is Result.Failure<*> -> {
+                    Toast.makeText(context, registerResult.msg, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
     RegisterView(
         state = viewModel.state,
         onEvent = viewModel::onEvent,
@@ -115,7 +132,7 @@ fun RegisterView(
         )
 
         StyledButton(
-            onClick = {},
+            onClick = { onEvent(RegisterScreenEvent.RegisterBtnClicked) },
             modifier = Modifier.padding(top = 80.dp)
         ) {
             Text(
