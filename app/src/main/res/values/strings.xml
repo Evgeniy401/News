@@ -9,5 +9,7 @@
     <string name="no_account_register">Регистрация</string>
     <string name="already_have_an_account">Уже есть аккаунт</string>
 
+    <string name="feed">Лента</string>
+    <string name="profile">Профиль</string>
 
 </resources>
