@@ -1,6 +1,6 @@
-package com.example.myapplication.presentation.screen.state
+package com.example.myapplication.presentation.screen.register
 
-import com.example.myapplication.utill.Result
+import com.example.myapplication.domain.utill.Result
 
 sealed class RegisterScreenEvent {
     data class UsernameUpdated(val newUsername: String): RegisterScreenEvent()

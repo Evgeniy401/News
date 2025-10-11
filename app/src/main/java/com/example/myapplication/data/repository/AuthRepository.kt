@@ -2,7 +2,7 @@ package com.example.myapplication.data.repository
 
 import com.example.myapplication.domain.dao.UserDao
 import com.example.myapplication.domain.entity.User
-import com.example.myapplication.utill.Result
+import com.example.myapplication.domain.utill.Result
 import java.util.UUID
 import javax.inject.Inject
 
