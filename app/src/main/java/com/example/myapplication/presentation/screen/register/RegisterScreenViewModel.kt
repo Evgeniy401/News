@@ -1,12 +1,8 @@
 package com.example.myapplication.presentation.screen.register
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.data.repository.AuthRepository
-import com.example.myapplication.presentation.screen.login.LoginScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,7 +31,7 @@ class RegisterScreenViewModel @Inject constructor(
     }
 
     private fun onUsernameUpdated(newUsername: String) {
-        _state.update { it.copy(email = newUsername) }
+        _state.update { it.copy(username = newUsername) }
     }
 
     private fun onEmailUpdated(newEmail: String) {
