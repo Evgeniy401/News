@@ -5,9 +5,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.myapplication.presentation.screen.LoginScreen
-import com.example.myapplication.presentation.screen.MainScreen
-import com.example.myapplication.presentation.screen.RegisterScreen
+import com.example.myapplication.presentation.screen.login.LoginScreen
+import com.example.myapplication.presentation.screen.main.MainScreen
+import com.example.myapplication.presentation.screen.register.RegisterScreen
 import kotlinx.serialization.Serializable
 
 sealed class Screen {

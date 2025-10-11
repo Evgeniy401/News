@@ -1,4 +1,4 @@
-package com.example.myapplication.di
+package com.example.myapplication.presentation.di
 
 import com.example.myapplication.data.repository.AuthRepository
 import com.example.myapplication.domain.dao.UserDao

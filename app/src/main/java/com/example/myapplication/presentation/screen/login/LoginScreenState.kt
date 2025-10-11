@@ -1,6 +1,6 @@
-package com.example.myapplication.presentation.screen.state
+package com.example.myapplication.presentation.screen.login
 
-import com.example.myapplication.utill.Result
+import com.example.myapplication.domain.utill.Result
 
 
 sealed class LoginScreenEvent {
