@@ -21,9 +21,6 @@ fun StyledButton(
         modifier = modifier,
         onClick = onClick,
         shape = RoundedCornerShape(size = 15.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color.Black
-        )
     ) {
         Box(
             modifier = Modifier.padding(horizontal = 35.dp, vertical = 5.dp)
