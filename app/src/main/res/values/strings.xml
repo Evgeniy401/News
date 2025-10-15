@@ -13,4 +13,6 @@
     <string name="profile">Профиль</string>
     <string name="read">Читать</string>
 
+    <string name="news_search">Поиск по новостям</string>
+
 </resources>
