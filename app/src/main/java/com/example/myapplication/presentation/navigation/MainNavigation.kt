@@ -10,45 +10,46 @@ import com.example.myapplication.presentation.screen.main.MainScreen
 import com.example.myapplication.presentation.screen.register.RegisterScreen
 import kotlinx.serialization.Serializable
 
-sealed class Screen {
+sealed interface Screen {
     @Serializable
-    data object Login : Screen()
+    data object Login : Screen
 
     @Serializable
-    data object Register : Screen()
+    data object Register : Screen
 
     @Serializable
-    data object Main : Screen()
-}
+    data object Main : Screen
 
-@Composable
-fun MainNav(
-    modifier: Modifier = Modifier,
-    navHostController: NavHostController,
-    isLoggedIn: Boolean,
-) {
-    NavHost(
-        modifier = modifier,
-        navController = navHostController,
-        startDestination = if (isLoggedIn) Screen.Main else Screen.Login
+
+    @Composable
+    fun MainNav(
+        modifier: Modifier = Modifier,
+        navHostController: NavHostController,
+        isLoggedIn: Boolean,
     ) {
-        composable<Screen.Login> {
-            LoginScreen(
-                onNavigateTo = { navigateTo ->
+        NavHost(
+            modifier = modifier,
+            navController = navHostController,
+            startDestination = if (isLoggedIn) Screen.Main else Screen.Login
+        ) {
+            composable<Screen.Login> {
+                LoginScreen(
+                    onNavigateTo = { navigateTo ->
+                        navHostController.navigate(navigateTo)
+                    }
+                )
+            }
+
+            composable<Screen.Register> {
+                RegisterScreen { navigateTo ->
                     navHostController.navigate(navigateTo)
                 }
-            )
-        }
-
-        composable<Screen.Register> {
-            RegisterScreen { navigateTo ->
-                navHostController.navigate(navigateTo)
             }
-        }
 
-        composable<Screen.Main> {
-            MainScreen { navigateTo ->
-                navHostController.navigate(navigateTo)
+            composable<Screen.Main> {
+                MainScreen { navigateTo ->
+                    navHostController.navigate(navigateTo)
+                }
             }
         }
     }
