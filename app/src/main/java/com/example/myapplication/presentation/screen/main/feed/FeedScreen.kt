@@ -25,58 +25,35 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.myapplication.domain.model.NewsItem
-import kotlinx.datetime.LocalDateTime
 import com.example.myapplication.R
 
 @Composable
 fun FeedScreen() {
     var searchText by remember { mutableStateOf("") }
-    val sampleNewsList = listOf(
-        NewsItem(
-            id = "1",
-            title = "Запуск новой версии Android Studio",
-            description = "Google представил новую версию Android Studio с улучшенной производительностью и новыми инструментами для разработки.",
-            publishedBy = "Android Developers Blog",
-            publishedAt = LocalDateTime(2024, 1, 15, 14, 30),
-            imageUrl = "https://papik.pro/uploads/posts/2021-11/1636195125_13-papik-pro-p-prostie-logotipi-foto-16.jpg",
-            isFavorite = true
-        ),
-        NewsItem(
-            id = "2",
-            title = "Kotlin 2.0: Что нового в обновлении",
-            description = "JetBrains анонсировал выход Kotlin 2.0 с новыми возможностями для мультиплатформенной разработки.",
-            publishedBy = "Kotlin Blog",
-            publishedAt = LocalDateTime(2024, 1, 14, 10, 15),
-            imageUrl = "https://papik.pro/uploads/posts/2021-11/1636195092_1-papik-pro-p-prostie-logotipi-foto-1.jpg",
-            isFavorite = false
-        ),
-        NewsItem(
-            id = "3",
-            title = "Композерный UI: Будущее Android разработки",
-            description = "Jetpack Compose продолжает набирать популярность среди разработчиков благодаря своей простоте и мощности.",
-            publishedBy = "Android Authority",
-            publishedAt = LocalDateTime(2024, 1, 13, 16, 45),
-            imageUrl = "https://papik.pro/uploads/posts/2021-11/1636195107_8-papik-pro-p-prostie-logotipi-foto-10.jpg",
-            isFavorite = true
-        )
-    )
 
+
+}
+
+@Composable
+fun FeedScreenContent(
+    state: FeedScreenState,
+    onEvent: (FeedScreenEvent) -> Unit
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         OutlinedTextField(
-            value = searchText,
-            onValueChange = { searchText = it },
-             leadingIcon = {
-                 Icon(
-                     imageVector = Icons.Default.Search,
-                     contentDescription = "Иконка поиска",
-                     tint = Color.Gray
-                 )
-             },
+            value = state.searchQuery,
+            onValueChange = { onEvent(FeedScreenEvent.SearchQueryChanged(it)) },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = "Иконка поиска",
+                    tint = Color.Gray
+                )
+            },
             placeholder = {
                 Text(
                     text = stringResource(R.string.news_search),
@@ -92,11 +69,13 @@ fun FeedScreen() {
                 .fillMaxWidth(0.9f),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            items(sampleNewsList) {
+            items(state.filteredNews) {
                 com.example.myapplication.presentation.ui.component.NewsItem(
                     newsItem = it,
                     onFavoriteClicked = {},
-                    onReadClicked = {},
+                    onReadClicked = {
+                        onEvent(FeedScreenEvent.NewsItemClicked(it))
+                    },
                 )
             }
         }
