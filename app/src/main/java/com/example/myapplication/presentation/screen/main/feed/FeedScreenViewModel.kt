@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-@HiltViewModel
+@HiltViewModel(assistedFactory = FeedScreenViewModel.Factory::class)
 class FeedScreenViewModel @AssistedInject constructor(
     @Assisted val navigate: (Screen) -> Unit,
     private val newsRepository: NewsRepository
@@ -33,20 +33,43 @@ class FeedScreenViewModel @AssistedInject constructor(
         when (event) {
             is FeedScreenEvent.NewsItemClicked -> TODO()
             is FeedScreenEvent.SearchQueryChanged -> onSearchQueryChanged(event.newSearchQuery)
+            is FeedScreenEvent.NewsItemFavoriteToggleClicked -> onNewsItemFavoriteToggleClicked(
+                event.newsItem
+            )
         }
+    }
+
+    private fun onNewsItemFavoriteToggleClicked(newsItem: NewsItem) {
+        val updateNews = state.value.filteredNews.map {
+            if (it.id == newsItem.id) newsItem.copy(isFavorite = !newsItem.isFavorite)
+            else it
+        }
+        _state.update { it.copy(filteredNews = updateNews) }
     }
 
     private fun onSearchQueryChanged(newQuery: String) {
         _state.update { it.copy(searchQuery = newQuery) }
-
         viewModelScope.launch {
-
-            val filteredNews = withContext(Dispatchers.Default) {
-                news.filter { it.title.contains(newQuery) }
-            }
-            _state.update { it.copy(filteredNews = filteredNews) }
+            _state.update { it.copy(filteredNews = filterNews(newQuery, news)) }
         }
 
+    }
+
+    private fun loadNews() = viewModelScope.launch {
+        val news = withContext(Dispatchers.IO) { newsRepository.loadNews() }
+        this@FeedScreenViewModel.news = news
+        _state.update { it.copy(filteredNews = filterNews(state.value.searchQuery, news)) }
+    }
+
+    private suspend fun filterNews(query: String, news: List<NewsItem>): List<NewsItem> {
+        return withContext(Dispatchers.Default) {
+            if (query.isEmpty()) news
+            else news.filter { it.title.contains(query) }
+        }
+    }
+
+    init {
+        loadNews()
     }
 
 

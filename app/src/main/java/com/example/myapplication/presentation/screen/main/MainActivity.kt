@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.data.repository.LocalAuthManager
-import com.example.myapplication.presentation.navigation.MainNav
+import com.example.myapplication.presentation.navigation.Screen.Login.MainNav
 import com.example.myapplication.presentation.theme.MyApplicationTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
